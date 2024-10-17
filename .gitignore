@@ -1,0 +1,4 @@
+.env
+setup.txt
+migrate.txt
+docker-compose.yaml

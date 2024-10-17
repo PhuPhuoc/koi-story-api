@@ -1,0 +1,21 @@
+info:
+  contact: {}
+  title: Koi Story API
+  version: "1.0"
+paths:
+  /users/hello:
+    get:
+      consumes:
+      - application/json
+      description: hello
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: say hi
+          schema:
+            type: string
+      summary: hello
+      tags:
+      - users
+swagger: "2.0"
