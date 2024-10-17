@@ -1,4 +1,4 @@
-package userrepository
+package repository
 
 import "github.com/jmoiron/sqlx"
 

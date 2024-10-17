@@ -1,4 +1,4 @@
-package blogmarketmodel
+package model
 
 type BlogMarketCard struct {
 }

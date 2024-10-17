@@ -1,4 +1,4 @@
-package blogmarketrepository
+package repository
 
 import "github.com/jmoiron/sqlx"
 
