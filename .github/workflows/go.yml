@@ -49,9 +49,9 @@ jobs:
             fi
 
             # Stop and remove existing containers if they are running
-            docker compose -f /home/koi-story/docker-compose.yml down
+            docker compose -f /home/koi-story/docker-compose.yaml down
 
-            # Change to the directory containing docker-compose.yml
+            # Change to the directory containing docker-compose.yaml
             cd /home/koi-story
 
             # Start the services using Docker Compose (in detached mode)
