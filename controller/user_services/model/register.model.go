@@ -1,7 +1,8 @@
-package model
+package usermodel
 
 type Register struct {
-	Email           string `db:"email" json:"email"`
-	Password        string `db:"password" json:"password"`
+	Email           string `json:"email"`
+	UserName        string `json:"user_name"`
+	Password        string `json:"password"`
 	ConfirmPassword string `json:"confirm-password"`
 }

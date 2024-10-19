@@ -1,4 +1,4 @@
-package model
+package usermodel
 
 type UserLoginInfo struct {
 	Email    string `db:"email" json:"email"`

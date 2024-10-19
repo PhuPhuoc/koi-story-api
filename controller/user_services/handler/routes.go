@@ -11,6 +11,8 @@ func RegisterUserRoutes(rg *gin.RouterGroup, db *sqlx.DB) {
 	eg := rg.Group("/users")
 	{
 		eg.GET("/hello", sayHello)
+		eg.POST("/login", loginHandler(db))
+		eg.POST("/register", registerNewAccountHandler(db))
 	}
 }
 

@@ -1,3 +1,22 @@
+definitions:
+  usermodel.Register:
+    properties:
+      confirm-password:
+        type: string
+      email:
+        type: string
+      password:
+        type: string
+      user_name:
+        type: string
+    type: object
+  usermodel.UserLoginInfo:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    type: object
 info:
   contact: {}
   title: Koi Story API
@@ -16,6 +35,58 @@ paths:
           schema:
             type: string
       summary: hello
+      tags:
+      - users
+  /users/login:
+    post:
+      consumes:
+      - application/json
+      description: User login
+      parameters:
+      - description: User log in info
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/usermodel.UserLoginInfo'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: user data
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad request error
+          schema: {}
+      summary: User login
+      tags:
+      - users
+  /users/register:
+    post:
+      consumes:
+      - application/json
+      description: Register new user account
+      parameters:
+      - description: User info for registering a new account
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/usermodel.Register'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: message success
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad request error
+          schema: {}
+      summary: Register new user account
       tags:
       - users
 swagger: "2.0"
