@@ -1,4 +1,83 @@
 definitions:
+  marketmodel.MarketDetails:
+    properties:
+      color:
+        type: string
+      created_at:
+        type: string
+      description:
+        type: string
+      id:
+        type: string
+      listImage:
+        items:
+          $ref: '#/definitions/marketmodel.PostImage'
+        type: array
+      old:
+        type: string
+      phone_number:
+        type: string
+      post_type:
+        type: string
+      price:
+        type: number
+      product_name:
+        type: string
+      product_type:
+        type: string
+      seller_address:
+        type: string
+      size:
+        type: string
+      title:
+        type: string
+      type:
+        type: string
+      user_id:
+        type: string
+    type: object
+  marketmodel.NewPostMarket:
+    properties:
+      color:
+        type: string
+      created_at:
+        type: string
+      description:
+        type: string
+      list_image:
+        items:
+          type: string
+        type: array
+      old:
+        type: string
+      phone_number:
+        type: string
+      post_type:
+        type: string
+      price:
+        type: number
+      product_name:
+        type: string
+      product_type:
+        type: string
+      seller_address:
+        type: string
+      size:
+        type: string
+      title:
+        type: string
+      type:
+        type: string
+      user_id:
+        type: string
+    type: object
+  marketmodel.PostImage:
+    properties:
+      file_path:
+        type: string
+      image_order:
+        type: integer
+    type: object
   usermodel.Register:
     properties:
       confirm-password:
@@ -22,6 +101,81 @@ info:
   title: Koi Story API
   version: "1.0"
 paths:
+  /markets:
+    get:
+      consumes:
+      - application/json
+      description: Get all market's post
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: data object
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad request error
+          schema: {}
+      summary: Get all market's post
+      tags:
+      - markets
+    post:
+      consumes:
+      - application/json
+      description: Create new market's post
+      parameters:
+      - description: details of new post of market
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/marketmodel.NewPostMarket'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: message success
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad request error
+          schema: {}
+      summary: Create new market's post
+      tags:
+      - markets
+  /markets/{post_id}:
+    get:
+      consumes:
+      - application/json
+      description: Get market post details by post ID
+      parameters:
+      - description: Post ID
+        in: path
+        name: post_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: market post details
+          schema:
+            $ref: '#/definitions/marketmodel.MarketDetails'
+        "400":
+          description: Invalid post ID
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Post not found
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get details of a market's post
+      tags:
+      - markets
   /users/hello:
     get:
       consumes:

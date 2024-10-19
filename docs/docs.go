@@ -15,6 +15,117 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/markets": {
+            "get": {
+                "description": "Get all market's post",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "markets"
+                ],
+                "summary": "Get all market's post",
+                "responses": {
+                    "200": {
+                        "description": "data object",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request error",
+                        "schema": {}
+                    }
+                }
+            },
+            "post": {
+                "description": "Create new market's post",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "markets"
+                ],
+                "summary": "Create new market's post",
+                "parameters": [
+                    {
+                        "description": "details of new post of market",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/marketmodel.NewPostMarket"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "message success",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request error",
+                        "schema": {}
+                    }
+                }
+            }
+        },
+        "/markets/{post_id}": {
+            "get": {
+                "description": "Get market post details by post ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "markets"
+                ],
+                "summary": "Get details of a market's post",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Post ID",
+                        "name": "post_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "market post details",
+                        "schema": {
+                            "$ref": "#/definitions/marketmodel.MarketDetails"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid post ID",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Post not found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
         "/users/hello": {
             "get": {
                 "description": "hello",
@@ -118,6 +229,126 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "marketmodel.MarketDetails": {
+            "type": "object",
+            "properties": {
+                "color": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "listImage": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/marketmodel.PostImage"
+                    }
+                },
+                "old": {
+                    "type": "string"
+                },
+                "phone_number": {
+                    "type": "string"
+                },
+                "post_type": {
+                    "type": "string"
+                },
+                "price": {
+                    "type": "number"
+                },
+                "product_name": {
+                    "type": "string"
+                },
+                "product_type": {
+                    "type": "string"
+                },
+                "seller_address": {
+                    "type": "string"
+                },
+                "size": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "marketmodel.NewPostMarket": {
+            "type": "object",
+            "properties": {
+                "color": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "list_image": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "old": {
+                    "type": "string"
+                },
+                "phone_number": {
+                    "type": "string"
+                },
+                "post_type": {
+                    "type": "string"
+                },
+                "price": {
+                    "type": "number"
+                },
+                "product_name": {
+                    "type": "string"
+                },
+                "product_type": {
+                    "type": "string"
+                },
+                "seller_address": {
+                    "type": "string"
+                },
+                "size": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "marketmodel.PostImage": {
+            "type": "object",
+            "properties": {
+                "file_path": {
+                    "type": "string"
+                },
+                "image_order": {
+                    "type": "integer"
+                }
+            }
+        },
         "usermodel.Register": {
             "type": "object",
             "properties": {

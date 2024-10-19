@@ -3,6 +3,7 @@ package api
 import (
 	"fmt"
 
+	markethandler "github.com/PhuPhuoc/koi-story-api/controller/market_services/handler"
 	userhandler "github.com/PhuPhuoc/koi-story-api/controller/user_services/handler"
 	docs "github.com/PhuPhuoc/koi-story-api/docs"
 	"github.com/gin-contrib/cors"
@@ -51,4 +52,5 @@ func (sv *server) runLog() {
 
 func (sv *server) registerRoutes(v1 *gin.RouterGroup) {
 	userhandler.RegisterUserRoutes(v1, sv.db)
+	markethandler.RegisterMarketRoutes(v1, sv.db)
 }
