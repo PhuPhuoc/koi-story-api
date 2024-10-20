@@ -1,35 +1,35 @@
-package markethandler
+package consulthandler
 
 import (
 	"net/http"
 
-	marketrepository "github.com/PhuPhuoc/koi-story-api/controller/market_services/repository"
+	consultrepository "github.com/PhuPhuoc/koi-story-api/controller/consult_services/repository"
 	"github.com/gin-gonic/gin"
 	"github.com/jmoiron/sqlx"
 )
 
 //	@BasePath	/api/v1
 
-// GetAllMarketPost godoc
+// GetMyConsultPost godoc
 //
-//	@Summary		Get all my market's post
-//	@Description	Get all my market's post
-//	@Tags			markets
+//	@Summary		Get all my consult's post
+//	@Description	Get all my consult's post
+//	@Tags			consults
 //	@Accept			json
 //	@Produce		json
 //	@Param			user_id	path		string					true	"User ID"
 //	@Success		200		{object}	map[string]interface{}	"data object"
 //	@Failure		400		{object}	error					"Bad request error"
-//	@Router			/markets/my/{user_id}  [get]
-func getMyPostHandler(db *sqlx.DB) gin.HandlerFunc {
+//	@Router			/consults/my/{user_id}  [get]
+func getMyConsultPostHandler(db *sqlx.DB) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		postID := c.Param("user_id")
-		if postID == "" {
+		user_id := c.Param("user_id")
+		if user_id == "" {
 			c.JSON(http.StatusBadRequest, gin.H{"error": "User ID is required"})
 			return
 		}
-		repo := marketrepository.NewMarketStore(db)
-		data, err := repo.GetMyPost(postID)
+		repo := consultrepository.NewConsultStore(db)
+		data, err := repo.GetMyListConsult(user_id)
 		if err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			return

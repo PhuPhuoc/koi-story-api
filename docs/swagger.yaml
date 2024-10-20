@@ -6,6 +6,30 @@ definitions:
       user_id:
         type: string
     type: object
+  consultmodel.CreateConsultInfo:
+    properties:
+      content:
+        type: string
+      file_path:
+        type: string
+      post_type:
+        type: string
+      title:
+        type: string
+      user_id:
+        type: string
+    type: object
+  consultmodel.UpdateConsultInfo:
+    properties:
+      content:
+        type: string
+      file_path:
+        type: string
+      post_type:
+        type: string
+      title:
+        type: string
+    type: object
   imagemodel.PostImage:
     properties:
       file_path:
@@ -135,6 +159,136 @@ info:
   title: Koi Story API
   version: "1.0"
 paths:
+  /consults:
+    get:
+      consumes:
+      - application/json
+      description: Get all consult's post
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: data object
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad request error
+          schema: {}
+      summary: Get all consult's post
+      tags:
+      - consults
+    post:
+      consumes:
+      - application/json
+      description: Create new consult's post
+      parameters:
+      - description: details of new post of consult
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/consultmodel.CreateConsultInfo'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: message success
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad request error
+          schema: {}
+      summary: Create new consult's post
+      tags:
+      - consults
+  /consults/{post_id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete post details by post ID
+      parameters:
+      - description: Post ID
+        in: path
+        name: post_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Deleted successfully
+          schema:
+            type: string
+        "400":
+          description: Invalid post ID
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Post not found
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Delete consult's post
+      tags:
+      - consults
+    put:
+      consumes:
+      - application/json
+      description: Update consult's post
+      parameters:
+      - description: Post ID
+        in: path
+        name: post_id
+        required: true
+        type: string
+      - description: details of current post of consult
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/consultmodel.UpdateConsultInfo'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: message success
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad request error
+          schema: {}
+      summary: Update consult's post
+      tags:
+      - consults
+  /consults/my/{user_id}:
+    get:
+      consumes:
+      - application/json
+      description: Get all my consult's post
+      parameters:
+      - description: User ID
+        in: path
+        name: user_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: data object
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad request error
+          schema: {}
+      summary: Get all my consult's post
+      tags:
+      - consults
   /markets:
     get:
       consumes:
@@ -193,7 +347,7 @@ paths:
       produces:
       - application/json
       responses:
-        "204":
+        "200":
           description: Deleted successfully
           schema:
             type: string
@@ -399,7 +553,7 @@ paths:
         type: string
       - description: image ID
         in: path
-        name: image_url
+        name: image_id
         required: true
         type: string
       produces:

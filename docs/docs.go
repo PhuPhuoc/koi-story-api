@@ -15,6 +15,198 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/consults": {
+            "get": {
+                "description": "Get all consult's post",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "consults"
+                ],
+                "summary": "Get all consult's post",
+                "responses": {
+                    "200": {
+                        "description": "data object",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request error",
+                        "schema": {}
+                    }
+                }
+            },
+            "post": {
+                "description": "Create new consult's post",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "consults"
+                ],
+                "summary": "Create new consult's post",
+                "parameters": [
+                    {
+                        "description": "details of new post of consult",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/consultmodel.CreateConsultInfo"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "message success",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request error",
+                        "schema": {}
+                    }
+                }
+            }
+        },
+        "/consults/my/{user_id}": {
+            "get": {
+                "description": "Get all my consult's post",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "consults"
+                ],
+                "summary": "Get all my consult's post",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "user_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "data object",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request error",
+                        "schema": {}
+                    }
+                }
+            }
+        },
+        "/consults/{post_id}": {
+            "put": {
+                "description": "Update consult's post",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "consults"
+                ],
+                "summary": "Update consult's post",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Post ID",
+                        "name": "post_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "details of current post of consult",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/consultmodel.UpdateConsultInfo"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "message success",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request error",
+                        "schema": {}
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete post details by post ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "consults"
+                ],
+                "summary": "Delete consult's post",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Post ID",
+                        "name": "post_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Deleted successfully",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid post ID",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Post not found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
         "/markets": {
             "get": {
                 "description": "Get all market's post",
@@ -228,7 +420,7 @@ const docTemplate = `{
                     }
                 ],
                 "responses": {
-                    "204": {
+                    "200": {
                         "description": "Deleted successfully",
                         "schema": {
                             "type": "string"
@@ -409,7 +601,7 @@ const docTemplate = `{
                     {
                         "type": "string",
                         "description": "image ID",
-                        "name": "image_url",
+                        "name": "image_id",
                         "in": "path",
                         "required": true
                     }
@@ -592,6 +784,43 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "user_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "consultmodel.CreateConsultInfo": {
+            "type": "object",
+            "properties": {
+                "content": {
+                    "type": "string"
+                },
+                "file_path": {
+                    "type": "string"
+                },
+                "post_type": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "consultmodel.UpdateConsultInfo": {
+            "type": "object",
+            "properties": {
+                "content": {
+                    "type": "string"
+                },
+                "file_path": {
+                    "type": "string"
+                },
+                "post_type": {
+                    "type": "string"
+                },
+                "title": {
                     "type": "string"
                 }
             }

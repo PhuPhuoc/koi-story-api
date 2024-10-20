@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	commenthandler "github.com/PhuPhuoc/koi-story-api/controller/comment_services/handler"
+	consulthandler "github.com/PhuPhuoc/koi-story-api/controller/consult_services/handler"
 	imagehandler "github.com/PhuPhuoc/koi-story-api/controller/image_services/handler"
 	markethandler "github.com/PhuPhuoc/koi-story-api/controller/market_services/handler"
 	userhandler "github.com/PhuPhuoc/koi-story-api/controller/user_services/handler"
@@ -57,4 +58,5 @@ func (sv *server) registerRoutes(v1 *gin.RouterGroup) {
 	imagehandler.RegisterImageRoutes(v1, sv.db)
 	markethandler.RegisterMarketRoutes(v1, sv.db)
 	commenthandler.RegisterCommentRoutes(v1, sv.db)
+	consulthandler.RegisterConsultRoutes(v1, sv.db)
 }
