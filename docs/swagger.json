@@ -205,6 +205,140 @@
                 }
             }
         },
+        "/post/{post_id}/comment": {
+            "get": {
+                "description": "Get all comment's post",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "comments"
+                ],
+                "summary": "Get all comment's post",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Post ID",
+                        "name": "post_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "data object",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request error",
+                        "schema": {}
+                    }
+                }
+            },
+            "post": {
+                "description": "Add new comment to post",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "comments"
+                ],
+                "summary": "Add new commnet to post",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Post ID",
+                        "name": "post_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "comment info",
+                        "name": "comment",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/commentmodel.CreateCommentModel"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "message success",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request error",
+                        "schema": {}
+                    }
+                }
+            }
+        },
+        "/post/{post_id}/comment/{comment_id}": {
+            "delete": {
+                "description": "Delete comment in post by image ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "comments"
+                ],
+                "summary": "Delete  post'comment",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "post ID",
+                        "name": "post_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "comment ID",
+                        "name": "comment_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Deleted successfully",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid post ID",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Post not found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
         "/post/{post_id}/image/{image_url}": {
             "post": {
                 "description": "Add new image to post",
@@ -270,7 +404,7 @@
                     },
                     {
                         "type": "string",
-                        "description": "image ID",
+                        "description": "image url",
                         "name": "image_url",
                         "in": "path",
                         "required": true
@@ -403,6 +537,17 @@
         }
     },
     "definitions": {
+        "commentmodel.CreateCommentModel": {
+            "type": "object",
+            "properties": {
+                "content": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "string"
+                }
+            }
+        },
         "imagemodel.PostImage": {
             "type": "object",
             "properties": {

@@ -1,4 +1,11 @@
 definitions:
+  commentmodel.CreateCommentModel:
+    properties:
+      content:
+        type: string
+      user_id:
+        type: string
+    type: object
   imagemodel.PostImage:
     properties:
       file_path:
@@ -263,6 +270,97 @@ paths:
       summary: Update market's post
       tags:
       - markets
+  /post/{post_id}/comment:
+    get:
+      consumes:
+      - application/json
+      description: Get all comment's post
+      parameters:
+      - description: Post ID
+        in: path
+        name: post_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: data object
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad request error
+          schema: {}
+      summary: Get all comment's post
+      tags:
+      - comments
+    post:
+      consumes:
+      - application/json
+      description: Add new comment to post
+      parameters:
+      - description: Post ID
+        in: path
+        name: post_id
+        required: true
+        type: string
+      - description: comment info
+        in: body
+        name: comment
+        required: true
+        schema:
+          $ref: '#/definitions/commentmodel.CreateCommentModel'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: message success
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad request error
+          schema: {}
+      summary: Add new commnet to post
+      tags:
+      - comments
+  /post/{post_id}/comment/{comment_id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete comment in post by image ID
+      parameters:
+      - description: post ID
+        in: path
+        name: post_id
+        required: true
+        type: string
+      - description: comment ID
+        in: path
+        name: comment_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: Deleted successfully
+          schema:
+            type: string
+        "400":
+          description: Invalid post ID
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Post not found
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Delete  post'comment
+      tags:
+      - comments
   /post/{post_id}/image/{image_url}:
     delete:
       consumes:
@@ -274,7 +372,7 @@ paths:
         name: post_id
         required: true
         type: string
-      - description: image ID
+      - description: image url
         in: path
         name: image_url
         required: true

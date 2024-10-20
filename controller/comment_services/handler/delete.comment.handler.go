@@ -1,44 +1,44 @@
-package imagehandler
+package commenthandler
 
 import (
 	"net/http"
 
-	imagerepository "github.com/PhuPhuoc/koi-story-api/controller/image_services/repository"
+	commmentrepository "github.com/PhuPhuoc/koi-story-api/controller/comment_services/repository"
 	"github.com/gin-gonic/gin"
 	"github.com/jmoiron/sqlx"
 )
 
 //	@BasePath	/api/v1
 
-// DeleteImagePost godoc
+// DeleteComment godoc
 //
-//	@Summary		Delete image  post
-//	@Description	Delete image in post by image ID
-//	@Tags			images
+//	@Summary		Delete  post'comment
+//	@Description	Delete comment in post by image ID
+//	@Tags			comments
 //	@Accept			json
 //	@Produce		json
 //	@Param			post_id		path		string					true	"post ID"
-//	@Param			image_url	path		string					true	"image url"
+//	@Param			comment_id	path		string					true	"comment ID"
 //	@Success		204			{object}	string					"Deleted successfully"
 //	@Failure		404			{object}	map[string]interface{}	"Post not found"
 //	@Failure		400			{object}	map[string]interface{}	"Invalid post ID"
-//	@Router			/post/{post_id}/image/{image_url} [delete]
-func deleteImageInPostMarketHandler(db *sqlx.DB) gin.HandlerFunc {
+//	@Router			/post/{post_id}/comment/{comment_id} [delete]
+func deleteCommentHandler(db *sqlx.DB) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		post_id := c.Param("post_id")
 		if post_id == "" {
 			c.JSON(http.StatusBadRequest, gin.H{"error": "Post ID is required"})
 			return
 		}
-		image_url := c.Param("image_url")
-		if image_url == "" {
+		comment_id := c.Param("comment_id")
+		if comment_id == "" {
 			c.JSON(http.StatusBadRequest, gin.H{"error": "Image ID is required"})
 			return
 		}
 
-		repo := imagerepository.NewImageStore(db)
+		repo := commmentrepository.NewCommentStore(db)
 
-		err := repo.DeleteImagePost(image_url)
+		err := repo.DeleteComment(comment_id)
 		if err != nil {
 			c.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
 			return

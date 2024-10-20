@@ -26,16 +26,13 @@ func registerNewAccountHandler(db *sqlx.DB) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var req usermodel.Register
 
-		// Bind JSON data to usermodel.Register struct
 		if err := c.ShouldBindJSON(&req); err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request body"})
 			return
 		}
 
-		// Create a new instance of the repository
 		repo := userrepository.NewUserStore(db)
 
-		// Pass the request data to the repository to create a new account
 		err := repo.RegisterNewAccount(req)
 		if err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
