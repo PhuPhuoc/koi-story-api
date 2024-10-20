@@ -376,6 +376,59 @@
                 }
             }
         },
+        "/post/{post_id}/image/{image_id}": {
+            "delete": {
+                "description": "Delete image in post by image ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "images"
+                ],
+                "summary": "Delete image  post",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "post ID",
+                        "name": "post_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "image ID",
+                        "name": "image_url",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Deleted successfully",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid post ID",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Post not found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
         "/post/{post_id}/image/{image_url}": {
             "post": {
                 "description": "Add new image to post",
@@ -416,57 +469,6 @@
                     "400": {
                         "description": "Bad request error",
                         "schema": {}
-                    }
-                }
-            },
-            "delete": {
-                "description": "Delete image in post by image ID",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "images"
-                ],
-                "summary": "Delete image  post",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "post ID",
-                        "name": "post_id",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "image url",
-                        "name": "image_url",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "204": {
-                        "description": "Deleted successfully",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    "400": {
-                        "description": "Invalid post ID",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    },
-                    "404": {
-                        "description": "Post not found",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
                     }
                 }
             }

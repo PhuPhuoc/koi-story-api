@@ -18,11 +18,11 @@ import (
 //	@Accept			json
 //	@Produce		json
 //	@Param			post_id		path		string					true	"post ID"
-//	@Param			image_url	path		string					true	"image url"
+//	@Param			image_url	path		string					true	"image ID"
 //	@Success		204			{object}	string					"Deleted successfully"
 //	@Failure		404			{object}	map[string]interface{}	"Post not found"
 //	@Failure		400			{object}	map[string]interface{}	"Invalid post ID"
-//	@Router			/post/{post_id}/image/{image_url} [delete]
+//	@Router			/post/{post_id}/image/{image_id} [delete]
 func deleteImageInPostMarketHandler(db *sqlx.DB) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		post_id := c.Param("post_id")
@@ -30,15 +30,15 @@ func deleteImageInPostMarketHandler(db *sqlx.DB) gin.HandlerFunc {
 			c.JSON(http.StatusBadRequest, gin.H{"error": "Post ID is required"})
 			return
 		}
-		image_url := c.Param("image_url")
-		if image_url == "" {
+		image_id := c.Param("image_id")
+		if image_id == "" {
 			c.JSON(http.StatusBadRequest, gin.H{"error": "Image ID is required"})
 			return
 		}
 
 		repo := imagerepository.NewImageStore(db)
 
-		err := repo.DeleteImagePost(image_url)
+		err := repo.DeleteImagePost(image_id)
 		if err != nil {
 			c.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
 			return

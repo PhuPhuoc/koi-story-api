@@ -386,7 +386,7 @@ paths:
       summary: Delete  post'comment
       tags:
       - comments
-  /post/{post_id}/image/{image_url}:
+  /post/{post_id}/image/{image_id}:
     delete:
       consumes:
       - application/json
@@ -397,7 +397,7 @@ paths:
         name: post_id
         required: true
         type: string
-      - description: image url
+      - description: image ID
         in: path
         name: image_url
         required: true
@@ -422,6 +422,7 @@ paths:
       summary: Delete image  post
       tags:
       - images
+  /post/{post_id}/image/{image_url}:
     post:
       consumes:
       - application/json
