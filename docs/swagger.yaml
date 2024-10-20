@@ -1,4 +1,13 @@
 definitions:
+  imagemodel.PostImage:
+    properties:
+      file_path:
+        type: string
+      id:
+        type: string
+      image_order:
+        type: integer
+    type: object
   marketmodel.MarketDetails:
     properties:
       color:
@@ -11,7 +20,7 @@ definitions:
         type: string
       listImage:
         items:
-          $ref: '#/definitions/marketmodel.PostImage'
+          $ref: '#/definitions/imagemodel.PostImage'
         type: array
       old:
         type: string
@@ -39,8 +48,6 @@ definitions:
   marketmodel.NewPostMarket:
     properties:
       color:
-        type: string
-      created_at:
         type: string
       description:
         type: string
@@ -71,12 +78,32 @@ definitions:
       user_id:
         type: string
     type: object
-  marketmodel.PostImage:
+  marketmodel.UpdatePostMarket:
     properties:
-      file_path:
+      color:
         type: string
-      image_order:
-        type: integer
+      description:
+        type: string
+      old:
+        type: string
+      phone_number:
+        type: string
+      post_type:
+        type: string
+      price:
+        type: number
+      product_name:
+        type: string
+      product_type:
+        type: string
+      seller_address:
+        type: string
+      size:
+        type: string
+      title:
+        type: string
+      type:
+        type: string
     type: object
   usermodel.Register:
     properties:
@@ -146,6 +173,36 @@ paths:
       tags:
       - markets
   /markets/{post_id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete post details by post ID
+      parameters:
+      - description: Post ID
+        in: path
+        name: post_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: Deleted successfully
+          schema:
+            type: string
+        "400":
+          description: Invalid post ID
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Post not found
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Delete market's post
+      tags:
+      - markets
     get:
       consumes:
       - application/json
@@ -176,6 +233,101 @@ paths:
       summary: Get details of a market's post
       tags:
       - markets
+    put:
+      consumes:
+      - application/json
+      description: Update market's post
+      parameters:
+      - description: Post ID
+        in: path
+        name: post_id
+        required: true
+        type: string
+      - description: details of current post of market
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/marketmodel.UpdatePostMarket'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: message success
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad request error
+          schema: {}
+      summary: Update market's post
+      tags:
+      - markets
+  /post/{post_id}/image/{image_url}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete image in post by image ID
+      parameters:
+      - description: post ID
+        in: path
+        name: post_id
+        required: true
+        type: string
+      - description: image ID
+        in: path
+        name: image_url
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: Deleted successfully
+          schema:
+            type: string
+        "400":
+          description: Invalid post ID
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Post not found
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Delete image  post
+      tags:
+      - images
+    post:
+      consumes:
+      - application/json
+      description: Add new image to post
+      parameters:
+      - description: Post ID
+        in: path
+        name: post_id
+        required: true
+        type: string
+      - description: Image Url
+        in: path
+        name: image_url
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: message success
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad request error
+          schema: {}
+      summary: Add new image to post
+      tags:
+      - images
   /users/hello:
     get:
       consumes:

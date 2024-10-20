@@ -54,12 +54,13 @@ func (store *marketStore) GetMarketDetailsByID(postID string) (*marketmodel.Mark
 	query_image := `
         SELECT id, post_id, file_path, image_order
         FROM post_image
-        WHERE post_id = ?
+        WHERE post_id = ? and deleted_at is null
         ORDER BY image_order ASC
     `
 	if err := tx.Select(&md.ListImage, query_image, postID); err != nil {
 		return nil, fmt.Errorf("failed to get images: %w", err)
 	}
 
+	md.CreatedAt = md.Post.CreatedAt
 	return &md, nil
 }

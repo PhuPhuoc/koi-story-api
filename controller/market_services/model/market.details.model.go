@@ -1,5 +1,7 @@
 package marketmodel
 
+import imagemodel "github.com/PhuPhuoc/koi-story-api/controller/image_servces/model"
+
 type NewPostMarket struct {
 	Post
 	DetailMarket
@@ -7,12 +9,25 @@ type NewPostMarket struct {
 	ListImage []string `json:"list_image"`
 }
 
+type UpdatePostMarket struct {
+	PostUpdate
+	DetailMarket
+	KoiInfo
+}
+
 type MarketDetails struct {
 	ID string `json:"id"`
 	Post
 	DetailMarket
 	KoiInfo
-	ListImage []PostImage
+	ListImage []imagemodel.PostImage
+	CreatedAt string `json:"created_at"`
+}
+
+type PostUpdate struct {
+	ID       string `db:"id" json:"-"`
+	PostType string `db:"post_type" json:"post_type"`
+	Title    string `db:"title" json:"title"`
 }
 
 type Post struct {
@@ -20,7 +35,7 @@ type Post struct {
 	UserID    string `db:"user_id" json:"user_id"`
 	PostType  string `db:"post_type" json:"post_type"`
 	Title     string `db:"title" json:"title"`
-	CreatedAt string `db:"created_at" json:"created_at"`
+	CreatedAt string `db:"created_at" json:"-"`
 }
 
 type DetailMarket struct {
@@ -43,11 +58,4 @@ type KoiInfo struct {
 	Old            string `db:"old" json:"old"`
 	Type           string `db:"type" json:"type"`
 	CreatedAt      string `db:"created_at" json:"-"`
-}
-
-type PostImage struct {
-	ID         string `db:"id" json:"-"`
-	PostID     string `db:"post_id" json:"-"`
-	FilePath   string `db:"file_path" json:"file_path"`
-	ImageOrder int    `db:"image_order" json:"image_order"`
 }

@@ -4,7 +4,8 @@ CREATE TABLE IF NOT EXISTS post_image (
     `id` VARCHAR(100) PRIMARY KEY,
     `post_id` VARCHAR(100),
     `file_path` VARCHAR(200),
-    `image_order` INT
+    `image_order` INT,
+    `deleted_at` DATETIME
 );
 -- +goose StatementEnd
 

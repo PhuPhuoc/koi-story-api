@@ -115,6 +115,189 @@
                         }
                     }
                 }
+            },
+            "put": {
+                "description": "Update market's post",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "markets"
+                ],
+                "summary": "Update market's post",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Post ID",
+                        "name": "post_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "details of current post of market",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/marketmodel.UpdatePostMarket"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "message success",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request error",
+                        "schema": {}
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete post details by post ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "markets"
+                ],
+                "summary": "Delete market's post",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Post ID",
+                        "name": "post_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Deleted successfully",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid post ID",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Post not found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/post/{post_id}/image/{image_url}": {
+            "post": {
+                "description": "Add new image to post",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "images"
+                ],
+                "summary": "Add new image to post",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Post ID",
+                        "name": "post_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Image Url",
+                        "name": "image_url",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "message success",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request error",
+                        "schema": {}
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete image in post by image ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "images"
+                ],
+                "summary": "Delete image  post",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "post ID",
+                        "name": "post_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "image ID",
+                        "name": "image_url",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Deleted successfully",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid post ID",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Post not found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
             }
         },
         "/users/hello": {
@@ -220,6 +403,20 @@
         }
     },
     "definitions": {
+        "imagemodel.PostImage": {
+            "type": "object",
+            "properties": {
+                "file_path": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "image_order": {
+                    "type": "integer"
+                }
+            }
+        },
         "marketmodel.MarketDetails": {
             "type": "object",
             "properties": {
@@ -238,7 +435,7 @@
                 "listImage": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/marketmodel.PostImage"
+                        "$ref": "#/definitions/imagemodel.PostImage"
                     }
                 },
                 "old": {
@@ -280,9 +477,6 @@
             "type": "object",
             "properties": {
                 "color": {
-                    "type": "string"
-                },
-                "created_at": {
                     "type": "string"
                 },
                 "description": {
@@ -329,14 +523,44 @@
                 }
             }
         },
-        "marketmodel.PostImage": {
+        "marketmodel.UpdatePostMarket": {
             "type": "object",
             "properties": {
-                "file_path": {
+                "color": {
                     "type": "string"
                 },
-                "image_order": {
-                    "type": "integer"
+                "description": {
+                    "type": "string"
+                },
+                "old": {
+                    "type": "string"
+                },
+                "phone_number": {
+                    "type": "string"
+                },
+                "post_type": {
+                    "type": "string"
+                },
+                "price": {
+                    "type": "number"
+                },
+                "product_name": {
+                    "type": "string"
+                },
+                "product_type": {
+                    "type": "string"
+                },
+                "seller_address": {
+                    "type": "string"
+                },
+                "size": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
                 }
             }
         },

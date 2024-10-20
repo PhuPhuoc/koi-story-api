@@ -8,8 +8,10 @@ import (
 func RegisterMarketRoutes(rg *gin.RouterGroup, db *sqlx.DB) {
 	eg := rg.Group("/markets")
 	{
-		eg.POST("", createPostHandler(db))
 		eg.GET("", getAllPostHandler(db))
+		eg.POST("", createPostHandler(db))
 		eg.GET("/:post_id", getPostDetailsHandler(db))
+		eg.PUT("/:post_id", updatePostDetailHandler(db))
+		eg.DELETE("/:post_id", deletePostDetailsHandler(db))
 	}
 }

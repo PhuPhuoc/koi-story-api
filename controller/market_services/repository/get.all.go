@@ -6,10 +6,20 @@ func (store *marketStore) GetAllPost() ([]marketmodel.PostMarket, error) {
 	var posts []marketmodel.PostMarket
 
 	query := `
-        SELECT p.id as post_id, dm.product_name, dm.price, pi.file_path
-        FROM post p
-        JOIN detail_market dm ON p.id = dm.post_id
-        JOIN post_image pi ON p.id = pi.post_id where pi.image_order=0
+        select p.id as post_id, dm.product_name, dm.price, coalesce(pi.file_path, '') as file_path
+        from post p
+        join detail_market dm ON p.id = dm.post_id
+        LEFT JOIN
+		(
+			select post_id, file_path
+			from post_image
+			where deleted_at IS NULL
+			order by image_order ASC
+			limit 1
+		)
+		pi ON p.id = pi.post_id
+		where p.deleted_at is null
+		order by p.created_at desc
     `
 
 	err := store.db.Select(&posts, query)
