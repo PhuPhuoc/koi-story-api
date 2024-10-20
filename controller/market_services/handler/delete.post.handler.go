@@ -19,7 +19,7 @@ import (
 //	@Accept			json
 //	@Produce		json
 //	@Param			post_id	path		string					true	"Post ID"
-//	@Success		204		{object}	string					"Deleted successfully"
+//	@Success		200		{object}	string					"Deleted successfully"
 //	@Failure		404		{object}	map[string]interface{}	"Post not found"
 //	@Failure		400		{object}	map[string]interface{}	"Invalid post ID"
 //	@Router			/markets/{post_id} [delete]
@@ -39,6 +39,6 @@ func deletePostDetailsHandler(db *sqlx.DB) gin.HandlerFunc {
 			c.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
 			return
 		}
-		c.JSON(http.StatusNoContent, gin.H{"message": "Deleted successfully"})
+		c.JSON(http.StatusOK, gin.H{"message": "Deleted successfully"})
 	}
 }
