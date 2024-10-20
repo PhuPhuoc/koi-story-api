@@ -270,6 +270,31 @@ paths:
       summary: Update market's post
       tags:
       - markets
+  /markets/my/{user_id}:
+    get:
+      consumes:
+      - application/json
+      description: Get all my market's post
+      parameters:
+      - description: User ID
+        in: path
+        name: user_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: data object
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad request error
+          schema: {}
+      summary: Get all my market's post
+      tags:
+      - markets
   /post/{post_id}/comment:
     get:
       consumes:

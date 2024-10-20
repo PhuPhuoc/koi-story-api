@@ -80,6 +80,43 @@ const docTemplate = `{
                 }
             }
         },
+        "/markets/my/{user_id}": {
+            "get": {
+                "description": "Get all my market's post",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "markets"
+                ],
+                "summary": "Get all my market's post",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "user_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "data object",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request error",
+                        "schema": {}
+                    }
+                }
+            }
+        },
         "/markets/{post_id}": {
             "get": {
                 "description": "Get market post details by post ID",

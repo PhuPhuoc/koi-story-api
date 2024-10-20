@@ -2,7 +2,7 @@ package marketrepository
 
 import marketmodel "github.com/PhuPhuoc/koi-story-api/controller/market_services/model"
 
-func (store *marketStore) GetAllPost() ([]marketmodel.PostMarket, error) {
+func (store *marketStore) GetMyPost(my_id string) ([]marketmodel.PostMarket, error) {
 	var posts []marketmodel.PostMarket
 
 	query := `
@@ -15,11 +15,10 @@ func (store *marketStore) GetAllPost() ([]marketmodel.PostMarket, error) {
     		from post_image
     		where deleted_at IS NULL
 		) pi ON p.id = pi.post_id AND pi.rn = 1
-		where p.deleted_at is null
+		where p.deleted_at is null and p.user_id=?
 		order by p.created_at desc
     `
-
-	err := store.db.Select(&posts, query)
+	err := store.db.Select(&posts, query, my_id)
 	if err != nil {
 		return nil, err
 	}
