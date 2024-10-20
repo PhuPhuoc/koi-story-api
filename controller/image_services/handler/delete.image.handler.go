@@ -43,6 +43,6 @@ func deleteImageInPostMarketHandler(db *sqlx.DB) gin.HandlerFunc {
 			c.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
 			return
 		}
-		c.JSON(http.StatusNoContent, gin.H{"message": "Deleted successfully"})
+		c.JSON(http.StatusOK, gin.H{"message": "Deleted successfully"})
 	}
 }
