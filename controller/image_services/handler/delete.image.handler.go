@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
-	imagerepository "github.com/PhuPhuoc/koi-story-api/controller/image_servces/repository"
+	imagerepository "github.com/PhuPhuoc/koi-story-api/controller/image_services/repository"
 	"github.com/gin-gonic/gin"
 	"github.com/jmoiron/sqlx"
 )

@@ -1,6 +1,6 @@
 package marketmodel
 
-import imagemodel "github.com/PhuPhuoc/koi-story-api/controller/image_servces/model"
+import imagemodel "github.com/PhuPhuoc/koi-story-api/controller/image_services/model"
 
 type NewPostMarket struct {
 	Post

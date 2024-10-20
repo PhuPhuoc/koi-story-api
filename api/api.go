@@ -3,7 +3,7 @@ package api
 import (
 	"fmt"
 
-	imagehandler "github.com/PhuPhuoc/koi-story-api/controller/image_servces/handler"
+	imagehandler "github.com/PhuPhuoc/koi-story-api/controller/image_services/handler"
 	markethandler "github.com/PhuPhuoc/koi-story-api/controller/market_services/handler"
 	userhandler "github.com/PhuPhuoc/koi-story-api/controller/user_services/handler"
 	docs "github.com/PhuPhuoc/koi-story-api/docs"
