@@ -7,10 +7,10 @@ func (store *commentStore) GetAllCommentInPost(post_id string) ([]commentmodel.P
 	select c.id, c.user_id, c.content, c.created_at,
 	u.display_name as username, u.profile_picture_url as user_avatar_url
 	from comment c join user u on c.user_id=u.id
-	where c.deleted_at is null
+	where c.deleted_at is null and c.post_id=?
 	`
 	var comments []commentmodel.PostComment
-	if err := store.db.Select(&comments, query); err != nil {
+	if err := store.db.Select(&comments, query, post_id); err != nil {
 		return nil, err
 	}
 	return comments, nil
