@@ -18,7 +18,7 @@ import (
 //	@Accept			json
 //	@Produce		json
 //	@Param			post_id		path		string					true	"post ID"
-//	@Param			image_url	path		string					true	"image ID"
+//	@Param			image_id	path		string					true	"image ID"
 //	@Success		204			{object}	string					"Deleted successfully"
 //	@Failure		404			{object}	map[string]interface{}	"Post not found"
 //	@Failure		400			{object}	map[string]interface{}	"Invalid post ID"
