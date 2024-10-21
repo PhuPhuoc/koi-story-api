@@ -6,7 +6,7 @@ import (
 )
 
 func RegisterCommentRoutes(rg *gin.RouterGroup, db *sqlx.DB) {
-	eg := rg.Group("/post/:post_id/comment/")
+	eg := rg.Group("/post/:post_id/comment")
 	{
 		eg.GET("", getAllCommentHandler(db))
 		eg.POST("", addCommentHandler(db))
