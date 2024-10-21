@@ -29,10 +29,10 @@ func (store *consultStore) UpdateConsult(post_id string, data consultmodel.Updat
 		return fmt.Errorf("failed to insert new consult (post): %w", err)
 	}
 
-	data.Consult.ID = post_id
+	data.PostID = post_id
 	query_consutl := `
     update detail_consult set content=:content
-    where id=:id
+    where post_id=:post_id
     `
 	_, err = tx.NamedExec(query_consutl, data.Consult)
 	if err != nil {
