@@ -143,13 +143,22 @@ definitions:
     type: object
   usermodel.Register:
     properties:
-      confirm-password:
+      confirm_password:
         type: string
       email:
+        type: string
+      face_image:
         type: string
       password:
         type: string
       user_name:
+        type: string
+    type: object
+  usermodel.UserLoginImage:
+    properties:
+      email:
+        type: string
+      file_path:
         type: string
     type: object
   usermodel.UserLoginInfo:
@@ -612,6 +621,36 @@ paths:
       summary: Delete image  post
       tags:
       - images
+  /users/{user_id}/uploadimage:
+    post:
+      consumes:
+      - multipart/form-data
+      description: Upload and save user profile image as base64
+      parameters:
+      - description: User ID
+        in: path
+        name: user_id
+        required: true
+        type: string
+      - description: User profile image
+        in: formData
+        name: file
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Image uploaded successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad request error
+          schema: {}
+      summary: Upload user profile image
+      tags:
+      - users
   /users/hello:
     get:
       consumes:
@@ -653,6 +692,62 @@ paths:
       summary: User login
       tags:
       - users
+  /users/loginbyface:
+    post:
+      consumes:
+      - multipart/form-data
+      description: Login by user face
+      parameters:
+      - description: User profile image
+        in: formData
+        name: file
+        required: true
+        type: file
+      - description: User email
+        in: formData
+        name: email
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Image uploaded successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad request error
+          schema: {}
+      summary: Login by user face
+      tags:
+      - users
+  /users/loginfa:
+    post:
+      consumes:
+      - application/json
+      description: User login
+      parameters:
+      - description: User log in info
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/usermodel.UserLoginImage'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: user data
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad request error
+          schema: {}
+      summary: User login
+      tags:
+      - users
   /users/register:
     post:
       consumes:
@@ -677,36 +772,6 @@ paths:
           description: Bad request error
           schema: {}
       summary: Register new user account
-      tags:
-      - users
-  /users/upload-image:
-    post:
-      consumes:
-      - multipart/form-data
-      description: Upload and save user profile image as base64
-      parameters:
-      - description: User ID
-        in: path
-        name: user_id
-        required: true
-        type: string
-      - description: User profile image
-        in: formData
-        name: file
-        required: true
-        type: file
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: Image uploaded successfully
-          schema:
-            additionalProperties: true
-            type: object
-        "400":
-          description: Bad request error
-          schema: {}
-      summary: Upload user profile image
       tags:
       - users
 swagger: "2.0"

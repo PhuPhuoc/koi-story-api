@@ -738,6 +738,89 @@ const docTemplate = `{
                 }
             }
         },
+        "/users/loginbyface": {
+            "post": {
+                "description": "Login by user face",
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "users"
+                ],
+                "summary": "Login by user face",
+                "parameters": [
+                    {
+                        "type": "file",
+                        "description": "User profile image",
+                        "name": "file",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "User email",
+                        "name": "email",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Image uploaded successfully",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request error",
+                        "schema": {}
+                    }
+                }
+            }
+        },
+        "/users/loginfa": {
+            "post": {
+                "description": "User login",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "users"
+                ],
+                "summary": "User login",
+                "parameters": [
+                    {
+                        "description": "User log in info",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/usermodel.UserLoginImage"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "user data",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request error",
+                        "schema": {}
+                    }
+                }
+            }
+        },
         "/users/register": {
             "post": {
                 "description": "Register new user account",
@@ -777,7 +860,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/users/upload-image": {
+        "/users/{user_id}/uploadimage": {
             "post": {
                 "description": "Upload and save user profile image as base64",
                 "consumes": [
@@ -1043,16 +1126,30 @@ const docTemplate = `{
         "usermodel.Register": {
             "type": "object",
             "properties": {
-                "confirm-password": {
+                "confirm_password": {
                     "type": "string"
                 },
                 "email": {
+                    "type": "string"
+                },
+                "face_image": {
                     "type": "string"
                 },
                 "password": {
                     "type": "string"
                 },
                 "user_name": {
+                    "type": "string"
+                }
+            }
+        },
+        "usermodel.UserLoginImage": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "file_path": {
                     "type": "string"
                 }
             }

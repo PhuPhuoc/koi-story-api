@@ -23,7 +23,7 @@ import (
 //	@Param			file	formData	file					true	"User profile image"
 //	@Success		200		{object}	map[string]interface{}	"Image uploaded successfully"
 //	@Failure		400		{object}	error					"Bad request error"
-//	@Router			/users/upload-image [post]
+//	@Router			/users/{user_id}/uploadimage [post]
 func uploadImageHandler(db *sqlx.DB) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		user_id := c.Param("user_id")

@@ -6,6 +6,7 @@ type User struct {
 	Password          string `db:"password" json:"-"`
 	DisplayName       string `db:"display_name" json:"display_name"`
 	ProfilePictureUrl string `db:"profile_picture_url" json:"profile_picture_url"`
+	FaceDetectionData string `db:"face_detection_data" json:"face_detection_data"`
 	UserType          string `db:"user_type" json:"user_type"`
 	CreatedAt         string `db:"created_at" json:"created_at,omitempty"`
 	DeletedAt         string `db:"deleted_at" json:"deleted_at,omitempty"`
