@@ -792,6 +792,13 @@ const docTemplate = `{
                 "summary": "Upload user profile image",
                 "parameters": [
                     {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "user_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
                         "type": "file",
                         "description": "User profile image",
                         "name": "file",

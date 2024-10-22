@@ -18,7 +18,7 @@ func (store *consultStore) GetListConsult() ([]consultmodel.PostConsult, error) 
 		p.post_type,
 		p.title,
 		c.content,
-		pim.id as image_id
+		pim.id as image_id,
 		pim.file_path,
 		p.created_at
 	FROM
