@@ -8,9 +8,7 @@ CREATE TABLE IF NOT EXISTS detail_market (
     `price` DECIMAL(10, 2) NOT NULL,
     `seller_address` VARCHAR(255) NOT NULL,
     `phone_number` VARCHAR(15) NOT NULL,
-    `description` TEXT NOT NULL,
-    `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
-    `deleted_at` DATETIME
+    `description` TEXT NOT NULL
 );
 -- +goose StatementEnd
 

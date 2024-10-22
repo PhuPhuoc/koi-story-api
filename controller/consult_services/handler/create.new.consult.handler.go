@@ -19,8 +19,8 @@ import (
 //	@Accept			json
 //	@Produce		json
 //	@Param			user	body		consultmodel.CreateConsultInfo	true	"details of new post of consult"
-//	@Success		201		{object}	map[string]interface{}		"message success"
-//	@Failure		400		{object}	error						"Bad request error"
+//	@Success		201		{object}	map[string]interface{}			"message success"
+//	@Failure		400		{object}	error							"Bad request error"
 //	@Router			/consults [post]
 func createNewConsultPostHandler(db *sqlx.DB) gin.HandlerFunc {
 	return func(c *gin.Context) {

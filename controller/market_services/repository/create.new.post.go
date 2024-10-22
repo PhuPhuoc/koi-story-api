@@ -35,10 +35,9 @@ func (store *marketStore) CreateNewMarketPost(post marketmodel.NewPostMarket) er
 
 	post.DetailMarket.ID = uuid.New().String()
 	post.DetailMarket.PostID = post.Post.ID
-	post.DetailMarket.CreatedAt = utils.CreateDateTimeCurrentFormated()
 	query_detail := `
-    insert into detail_market (id, post_id, product_name, product_type, price, seller_address, phone_number, description, created_at)
-    values (:id, :post_id, :product_name, :product_type, :price, :seller_address, :phone_number, :description, :created_at)
+    insert into detail_market (id, post_id, product_name, product_type, price, seller_address, phone_number, description)
+    values (:id, :post_id, :product_name, :product_type, :price, :seller_address, :phone_number, :description)
     `
 	_, err = tx.NamedExec(query_detail, post.DetailMarket)
 	if err != nil {
@@ -47,10 +46,9 @@ func (store *marketStore) CreateNewMarketPost(post marketmodel.NewPostMarket) er
 
 	post.KoiInfo.ID = uuid.New().String()
 	post.KoiInfo.DetailMarketID = post.DetailMarket.ID
-	post.KoiInfo.CreatedAt = utils.CreateDateTimeCurrentFormated()
 	query_info := `
-    insert into koi_info (id, detail_market_id, color, size, old, type, created_at)
-    values (:id, :detail_market_id, :color, :size, :old, :type, :created_at)
+    insert into koi_info (id, detail_market_id, color, size, old, type)
+    values (:id, :detail_market_id, :color, :size, :old, :type)
     `
 	_, err = tx.NamedExec(query_info, post.KoiInfo)
 	if err != nil {

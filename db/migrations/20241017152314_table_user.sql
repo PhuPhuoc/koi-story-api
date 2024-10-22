@@ -6,6 +6,7 @@ CREATE TABLE IF NOT EXISTS user (
     `password` VARCHAR(30) NOT NULL,
     `display_name` VARCHAR(100) NOT NULL,
     `profile_picture_url` VARCHAR(300) NOT NULL,
+    `face_detection_data` BLOB,
     `user_type` ENUM('admin', 'user', 'member'),
     `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
     `deleted_at` DATETIME

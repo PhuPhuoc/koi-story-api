@@ -6,9 +6,7 @@ CREATE TABLE IF NOT EXISTS koi_info (
     `color` VARCHAR(100),
     `size` VARCHAR(100),
     `old` VARCHAR(100),
-    `type` VARCHAR(100),
-    `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
-    `deleted_at` DATETIME
+    `type` VARCHAR(100)
 );
 -- +goose StatementEnd
 

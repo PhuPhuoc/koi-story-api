@@ -7,3 +7,7 @@ type PostImage struct {
 	ImageOrder int    `db:"image_order" json:"image_order"`
 	DeletedAt  string `db:"deleted_at" json:"-"`
 }
+
+type UpdateImage struct {
+	FilePath string `db:"file_path" json:"file_path"`
+}

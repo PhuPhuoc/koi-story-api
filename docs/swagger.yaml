@@ -39,6 +39,11 @@ definitions:
       image_order:
         type: integer
     type: object
+  imagemodel.UpdateImage:
+    properties:
+      file_path:
+        type: string
+    type: object
   marketmodel.MarketDetails:
     properties:
       color:
@@ -540,6 +545,37 @@ paths:
       summary: Delete  post'comment
       tags:
       - comments
+  /post/{post_id}/image:
+    post:
+      consumes:
+      - application/json
+      description: Add new image to post
+      parameters:
+      - description: Post ID
+        in: path
+        name: post_id
+        required: true
+        type: string
+      - description: new url
+        in: body
+        name: url
+        required: true
+        schema:
+          $ref: '#/definitions/imagemodel.UpdateImage'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: message success
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad request error
+          schema: {}
+      summary: Add new image to post
+      tags:
+      - images
   /post/{post_id}/image/{image_id}:
     delete:
       consumes:
@@ -574,36 +610,6 @@ paths:
             additionalProperties: true
             type: object
       summary: Delete image  post
-      tags:
-      - images
-  /post/{post_id}/image/{image_url}:
-    post:
-      consumes:
-      - application/json
-      description: Add new image to post
-      parameters:
-      - description: Post ID
-        in: path
-        name: post_id
-        required: true
-        type: string
-      - description: Image Url
-        in: path
-        name: image_url
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "201":
-          description: message success
-          schema:
-            additionalProperties: true
-            type: object
-        "400":
-          description: Bad request error
-          schema: {}
-      summary: Add new image to post
       tags:
       - images
   /users/hello:

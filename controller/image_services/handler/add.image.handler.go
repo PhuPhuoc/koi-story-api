@@ -3,6 +3,7 @@ package imagehandler
 import (
 	"net/http"
 
+	imagemodel "github.com/PhuPhuoc/koi-story-api/controller/image_services/model"
 	imagerepository "github.com/PhuPhuoc/koi-story-api/controller/image_services/repository"
 	"github.com/gin-gonic/gin"
 	"github.com/jmoiron/sqlx"
@@ -17,11 +18,11 @@ import (
 //	@Tags			images
 //	@Accept			json
 //	@Produce		json
-//	@Param			post_id		path		string					true	"Post ID"
-//	@Param			image_url	path		string					true	"Image Url"
-//	@Success		201			{object}	map[string]interface{}	"message success"
-//	@Failure		400			{object}	error					"Bad request error"
-//	@Router			/post/{post_id}/image/{image_url} [post]
+//	@Param			post_id	path		string					true	"Post ID"
+//	@Param			url		body		imagemodel.UpdateImage	true	"new url"
+//	@Success		201		{object}	map[string]interface{}	"message success"
+//	@Failure		400		{object}	error					"Bad request error"
+//	@Router			/post/{post_id}/image [post]
 func addImageHandler(db *sqlx.DB) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		post_id := c.Param("post_id")
@@ -30,14 +31,16 @@ func addImageHandler(db *sqlx.DB) gin.HandlerFunc {
 			return
 		}
 
-		image_url := c.Param("image_url")
-		if image_url == "" {
-			c.JSON(http.StatusBadRequest, gin.H{"error": "image cannot be found"})
+		var req imagemodel.UpdateImage
+		if err := c.ShouldBindJSON(&req); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request body"})
 			return
 		}
+
+
 		repo := imagerepository.NewImageStore(db)
 
-		err := repo.AddNewImageInPost(post_id, image_url)
+		err := repo.AddNewImageInPost(post_id, req)
 		if err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			return

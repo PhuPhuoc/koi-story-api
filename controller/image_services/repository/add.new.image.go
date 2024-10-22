@@ -1,8 +1,11 @@
 package imagerepository
 
-import "github.com/google/uuid"
+import (
+	imagemodel "github.com/PhuPhuoc/koi-story-api/controller/image_services/model"
+	"github.com/google/uuid"
+)
 
-func (store *imageStore) AddNewImageInPost(postID, url string) error {
+func (store *imageStore) AddNewImageInPost(postID string, url imagemodel.UpdateImage) error {
 	tx, err := store.db.Beginx()
 	if err != nil {
 		return err
@@ -33,7 +36,7 @@ func (store *imageStore) AddNewImageInPost(postID, url string) error {
 	_, err = tx.Exec(`
 		insert into post_image (id, post_id, file_path, image_order)
 		values (?, ?, ?, ?)
-	`, img_id, postID, url, imageOrder)
+	`, img_id, postID, url.FilePath, imageOrder)
 	if err != nil {
 		return err
 	}

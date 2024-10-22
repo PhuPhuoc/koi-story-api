@@ -577,6 +577,52 @@ const docTemplate = `{
                 }
             }
         },
+        "/post/{post_id}/image": {
+            "post": {
+                "description": "Add new image to post",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "images"
+                ],
+                "summary": "Add new image to post",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Post ID",
+                        "name": "post_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "new url",
+                        "name": "url",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/imagemodel.UpdateImage"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "message success",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request error",
+                        "schema": {}
+                    }
+                }
+            }
+        },
         "/post/{post_id}/image/{image_id}": {
             "delete": {
                 "description": "Delete image in post by image ID",
@@ -626,50 +672,6 @@ const docTemplate = `{
                             "type": "object",
                             "additionalProperties": true
                         }
-                    }
-                }
-            }
-        },
-        "/post/{post_id}/image/{image_url}": {
-            "post": {
-                "description": "Add new image to post",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "images"
-                ],
-                "summary": "Add new image to post",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Post ID",
-                        "name": "post_id",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "Image Url",
-                        "name": "image_url",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "message success",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    },
-                    "400": {
-                        "description": "Bad request error",
-                        "schema": {}
                     }
                 }
             }
@@ -836,6 +838,14 @@ const docTemplate = `{
                 },
                 "image_order": {
                     "type": "integer"
+                }
+            }
+        },
+        "imagemodel.UpdateImage": {
+            "type": "object",
+            "properties": {
+                "file_path": {
+                    "type": "string"
                 }
             }
         },

@@ -47,7 +47,6 @@ type DetailMarket struct {
 	SellerAddress string  `db:"seller_address" json:"seller_address"`
 	PhoneNumber   string  `db:"phone_number" json:"phone_number"`
 	Description   string  `db:"description" json:"description"`
-	CreatedAt     string  `db:"created_at" json:"-"`
 }
 
 type KoiInfo struct {
@@ -57,5 +56,4 @@ type KoiInfo struct {
 	Size           string `db:"size" json:"size"`
 	Old            string `db:"old" json:"old"`
 	Type           string `db:"type" json:"type"`
-	CreatedAt      string `db:"created_at" json:"-"`
 }
