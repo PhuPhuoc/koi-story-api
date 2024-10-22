@@ -30,7 +30,7 @@ func (store *consultStore) GetMyListConsult(user_id string) ([]consultmodel.Post
 	LEFT JOIN
 		post_image pim ON p.id = pim.post_id
 	WHERE
-		p.deleted_at is null and p.user_id=?
+		p.deleted_at is null and pim.deleted_at is null and p.user_id=?
 	ORDER BY
 		p.created_at DESC
 	`
