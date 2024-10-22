@@ -738,51 +738,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/users/loginbyface": {
-            "post": {
-                "description": "Login by user face",
-                "consumes": [
-                    "multipart/form-data"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "users"
-                ],
-                "summary": "Login by user face",
-                "parameters": [
-                    {
-                        "type": "file",
-                        "description": "User profile image",
-                        "name": "file",
-                        "in": "formData",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "User email",
-                        "name": "email",
-                        "in": "formData",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Image uploaded successfully",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    },
-                    "400": {
-                        "description": "Bad request error",
-                        "schema": {}
-                    }
-                }
-            }
-        },
-        "/users/loginfa": {
+        "/users/login-by-face-with-email": {
             "post": {
                 "description": "User login",
                 "consumes": [
@@ -848,50 +804,6 @@ const docTemplate = `{
                 "responses": {
                     "201": {
                         "description": "message success",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    },
-                    "400": {
-                        "description": "Bad request error",
-                        "schema": {}
-                    }
-                }
-            }
-        },
-        "/users/{user_id}/uploadimage": {
-            "post": {
-                "description": "Upload and save user profile image as base64",
-                "consumes": [
-                    "multipart/form-data"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "users"
-                ],
-                "summary": "Upload user profile image",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "User ID",
-                        "name": "user_id",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "file",
-                        "description": "User profile image",
-                        "name": "file",
-                        "in": "formData",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Image uploaded successfully",
                         "schema": {
                             "type": "object",
                             "additionalProperties": true

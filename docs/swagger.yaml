@@ -621,36 +621,6 @@ paths:
       summary: Delete image  post
       tags:
       - images
-  /users/{user_id}/uploadimage:
-    post:
-      consumes:
-      - multipart/form-data
-      description: Upload and save user profile image as base64
-      parameters:
-      - description: User ID
-        in: path
-        name: user_id
-        required: true
-        type: string
-      - description: User profile image
-        in: formData
-        name: file
-        required: true
-        type: file
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: Image uploaded successfully
-          schema:
-            additionalProperties: true
-            type: object
-        "400":
-          description: Bad request error
-          schema: {}
-      summary: Upload user profile image
-      tags:
-      - users
   /users/hello:
     get:
       consumes:
@@ -692,37 +662,7 @@ paths:
       summary: User login
       tags:
       - users
-  /users/loginbyface:
-    post:
-      consumes:
-      - multipart/form-data
-      description: Login by user face
-      parameters:
-      - description: User profile image
-        in: formData
-        name: file
-        required: true
-        type: file
-      - description: User email
-        in: formData
-        name: email
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: Image uploaded successfully
-          schema:
-            additionalProperties: true
-            type: object
-        "400":
-          description: Bad request error
-          schema: {}
-      summary: Login by user face
-      tags:
-      - users
-  /users/loginfa:
+  /users/login-by-face-with-email:
     post:
       consumes:
       - application/json

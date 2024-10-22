@@ -19,9 +19,9 @@ import (
 //	@Accept			json
 //	@Produce		json
 //	@Param			user	body		usermodel.UserLoginImage	true	"User log in info"
-//	@Success		200		{object}	map[string]interface{}	"user data"
-//	@Failure		400		{object}	error					"Bad request error"
-//	@Router			/users/loginfa [post]
+//	@Success		200		{object}	map[string]interface{}		"user data"
+//	@Failure		400		{object}	error						"Bad request error"
+//	@Router			/users/login-by-face-with-email [post]
 func loginFaHandler(db *sqlx.DB) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var req usermodel.UserLoginImage
@@ -36,7 +36,7 @@ func loginFaHandler(db *sqlx.DB) gin.HandlerFunc {
 		repo := userrepository.NewUserStore(db)
 
 		// Pass the request data to the repository to create a new account
-		user, err := repo.LoginFaceImage(req)
+		user, err := repo.LoginFaceImage(c, req)
 		if err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			return
