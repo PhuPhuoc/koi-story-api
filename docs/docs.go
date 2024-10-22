@@ -776,6 +776,43 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/users/upload-image": {
+            "post": {
+                "description": "Upload and save user profile image as base64",
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "users"
+                ],
+                "summary": "Upload user profile image",
+                "parameters": [
+                    {
+                        "type": "file",
+                        "description": "User profile image",
+                        "name": "file",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Image uploaded successfully",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request error",
+                        "schema": {}
+                    }
+                }
+            }
         }
     },
     "definitions": {

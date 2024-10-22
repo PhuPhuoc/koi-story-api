@@ -8,6 +8,7 @@ type PostConsult struct {
 	PostType   string `db:"post_type" json:"post_type"`
 	Title      string `db:"title" json:"title"`
 	Content    string `db:"content" json:"content"`
+	ImageID    string `db:"image_id" json:"image_id"`
 	FilePath   string `db:"file_path" json:"file_path"`
 	CreatedAt  string `db:"created_at" json:"created_at"`
 }

@@ -679,4 +679,29 @@ paths:
       summary: Register new user account
       tags:
       - users
+  /users/upload-image:
+    post:
+      consumes:
+      - multipart/form-data
+      description: Upload and save user profile image as base64
+      parameters:
+      - description: User profile image
+        in: formData
+        name: file
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Image uploaded successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad request error
+          schema: {}
+      summary: Upload user profile image
+      tags:
+      - users
 swagger: "2.0"
