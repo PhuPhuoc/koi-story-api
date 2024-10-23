@@ -777,6 +777,45 @@ const docTemplate = `{
                 }
             }
         },
+        "/users/login-just-by-face": {
+            "post": {
+                "description": "User login",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "users"
+                ],
+                "summary": "User login",
+                "parameters": [
+                    {
+                        "description": "User log in info",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/usermodel.UserLoginJustImage"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "user data",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request error",
+                        "schema": {}
+                    }
+                }
+            }
+        },
         "/users/register": {
             "post": {
                 "description": "Register new user account",
@@ -1073,6 +1112,14 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "password": {
+                    "type": "string"
+                }
+            }
+        },
+        "usermodel.UserLoginJustImage": {
+            "type": "object",
+            "properties": {
+                "file_path": {
                     "type": "string"
                 }
             }

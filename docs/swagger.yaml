@@ -168,6 +168,11 @@ definitions:
       password:
         type: string
     type: object
+  usermodel.UserLoginJustImage:
+    properties:
+      file_path:
+        type: string
+    type: object
 info:
   contact: {}
   title: Koi Story API
@@ -674,6 +679,32 @@ paths:
         required: true
         schema:
           $ref: '#/definitions/usermodel.UserLoginImage'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: user data
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad request error
+          schema: {}
+      summary: User login
+      tags:
+      - users
+  /users/login-just-by-face:
+    post:
+      consumes:
+      - application/json
+      description: User login
+      parameters:
+      - description: User log in info
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/usermodel.UserLoginJustImage'
       produces:
       - application/json
       responses:

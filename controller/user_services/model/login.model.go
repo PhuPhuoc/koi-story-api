@@ -13,3 +13,7 @@ type UserLoginImage struct {
 	Email    string `json:"email"`
 	FilePath string `db:"file_path" json:"file_path"`
 }
+
+type UserLoginJustImage struct {
+	FilePath string `db:"file_path" json:"file_path"`
+}
