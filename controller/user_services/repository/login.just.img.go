@@ -10,83 +10,109 @@ import (
 
 type VerifyResult struct {
 	UserID   string
+	AvgScore float64
 	Verified bool
 }
 
 func (store *userStore) LoginWithFaceImage(ctx context.Context, imageURL string) (usermodel.User, error) {
 	var user usermodel.User
 
-	query := "select id, face_detection_data from user where deleted_at IS NULL"
+	query := "select u.id, f.img_url from user u join face_data f on u.id=f.user_id where u.deleted_at is null"
 	rows, err := store.db.QueryxContext(ctx, query)
 	if err != nil {
 		return user, fmt.Errorf("failed to query users: %w", err)
 	}
 	defer rows.Close()
 
-	users := make(map[string]string)
+	users := make(map[string][]string)
 	for rows.Next() {
 		var id string
 		var faceDetectionURL string
 		if err := rows.Scan(&id, &faceDetectionURL); err != nil {
 			return user, fmt.Errorf("failed to scan row: %w", err)
 		}
-		users[id] = faceDetectionURL
+		users[id] = append(users[id], faceDetectionURL)
 	}
 
 	if len(users) == 0 {
 		return user, fmt.Errorf("no users found for face detection")
 	}
 
-	// context với timeout và cancel -> dừng tất cả goroutines khi có 1 user được verify
+	var highestScoreUser VerifyResult
+	highestScoreUser.AvgScore = 0.6 // Set the minimum threshold for login
+
+	// context with timeout and cancel -> stops all goroutines when a user is verified
 	ctx, cancel := context.WithCancel(ctx)
 	defer cancel()
 
-	results := make(chan VerifyResult) // Channel để nhận kết quả từ các goroutine
-	var wg sync.WaitGroup              // WaitGroup để quản lý đồng bộ goroutine
+	results := make(chan VerifyResult)
+	var wg sync.WaitGroup
 
-	// Sử dụng goroutines để gọi đến API deepface đồng thời
-	for userID, faceURL := range users {
+	// Process each user concurrently
+	for userID, faceURLs := range users {
 		wg.Add(1)
-		go func(id string, faceDetectionURL string) {
+		go func(id string, faceURLs []string) {
 			defer wg.Done()
 
-			verified, err := store.callFaceDetectionServer(ctx, faceDetectionURL, imageURL)
-			if err != nil {
-				// Log hoặc xử lý lỗi tại đây
-				fmt.Println("Error verifying face:", err)
-				return
+			var totalScore float64
+			var verifiedCount int
+
+			// Verify each of the 3 face images for the user
+			for _, faceDetectionURL := range faceURLs {
+				verified, threshold, err := store.callFaceDetectionServer(ctx, faceDetectionURL, imageURL)
+				if err != nil {
+					fmt.Println("Error verifying face:", err)
+					return
+				}
+
+				if verified {
+					totalScore += threshold
+					verifiedCount++
+				}
 			}
 
-			// Nếu xác thực đúng, gửi kết quả về channel và hủy context để dừng các goroutine khác
-			if verified {
-				results <- VerifyResult{UserID: id, Verified: true}
-				cancel() // Dừng các công việc còn lại
+			// Calculate the average score of the verified images
+			if verifiedCount > 0 {
+				avgScore := totalScore / float64(verifiedCount)
+				if avgScore > highestScoreUser.AvgScore {
+					results <- VerifyResult{
+						UserID:   id,
+						AvgScore: avgScore,
+						Verified: true,
+					}
+				}
 			}
-		}(userID, faceURL)
+		}(userID, faceURLs)
 	}
 
-	// Chạy goroutine khác để đóng channel khi tất cả goroutines hoàn thành
+	// Close the results channel when all goroutines are finished
 	go func() {
 		wg.Wait()
 		close(results)
 	}()
 
-	// Đợi kết quả từ channel
+	// Process results to find the user with the highest score
 	for result := range results {
-		if result.Verified {
-			// Nếu có kết quả đúng, truy vấn user và trả về
-			query := `
-				select id, email, display_name, profile_picture_url, user_type
-				from user where id = ?
-			`
-			if err := store.db.Get(&user, query, result.UserID); err != nil {
-				return user, fmt.Errorf("failed to query user data: %w", err)
-			}
-			return user, nil
+		if result.Verified && result.AvgScore > highestScoreUser.AvgScore {
+			highestScoreUser = result
 		}
 	}
 
-	// Nếu không tìm thấy kết quả đúng
-	return user, fmt.Errorf("no matching face detected")
+	// Check if a valid user was found with a high enough score
+	if highestScoreUser.Verified {
+		query := `
+			select id, email, display_name, profile_picture_url, user_type
+			from user where id = ?
+		`
+		if err := store.db.Get(&user, query, highestScoreUser.UserID); err != nil {
+			return user, fmt.Errorf("failed to query user data: %w", err)
+		}
+		fmt.Println("userlogin info: ", user)
+		fmt.Println("userlogin avg_score: ", highestScoreUser.AvgScore)
+		return user, nil
+	}
 
+	// If no matching face was detected
+	fmt.Println("userlogin info: ", user)
+	return user, fmt.Errorf("no matching face detected ~ highscore found: %v", highestScoreUser.AvgScore)
 }

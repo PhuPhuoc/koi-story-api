@@ -141,14 +141,16 @@ definitions:
       type:
         type: string
     type: object
-  usermodel.Register:
+  usermodel.RegisterV2:
     properties:
       confirm_password:
         type: string
       email:
         type: string
       face_image:
-        type: string
+        items:
+          type: string
+        type: array
       password:
         type: string
       user_name:
@@ -730,7 +732,7 @@ paths:
         name: user
         required: true
         schema:
-          $ref: '#/definitions/usermodel.Register'
+          $ref: '#/definitions/usermodel.RegisterV2'
       produces:
       - application/json
       responses:

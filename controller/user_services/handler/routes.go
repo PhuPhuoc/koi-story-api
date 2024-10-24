@@ -13,7 +13,7 @@ func RegisterUserRoutes(rg *gin.RouterGroup, db *sqlx.DB) {
 		eg.GET("/hello", sayHello)
 		eg.POST("/login", loginHandler(db))
 		eg.POST("/register", registerNewAccountHandler(db))
-		eg.POST("/login-by-face-with-email", loginFaHandler(db))
+		eg.POST("/login-by-face-with-email", loginWithEmailAndFaceV2Handler(db))
 		eg.POST("/login-just-by-face", loginJustByFaceHandler(db))
 	}
 }

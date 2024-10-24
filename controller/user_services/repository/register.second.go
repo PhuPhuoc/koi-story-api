@@ -8,7 +8,18 @@ import (
 	"github.com/google/uuid"
 )
 
-func (store *userStore) RegisterNewAccount(user_info usermodel.Register) error {
+func (store *userStore) RegisterNewAccountV2(user_info usermodel.RegisterV2) error {
+	tx, err := store.db.Beginx()
+	if err != nil {
+		return err
+	}
+	defer func() {
+		if err != nil {
+			tx.Rollback()
+		} else {
+			err = tx.Commit()
+		}
+	}()
 
 	if user_info.Password != user_info.ConfirmPassword {
 		return fmt.Errorf("passwords do not match")
@@ -24,24 +35,46 @@ func (store *userStore) RegisterNewAccount(user_info usermodel.Register) error {
 		return fmt.Errorf("email already exists")
 	}
 
+	user_id := uuid.New().String()
 	newUser := usermodel.User{
-		Id:                uuid.New().String(),
+		Id:                user_id,
 		Email:             user_info.Email,
 		DisplayName:       user_info.UserName,
 		Password:          user_info.Password,
 		ProfilePictureUrl: "https://cdn.dribbble.com/users/113499/screenshots/13947091/media/85c35fe30676eaae21f1b6401d9809b4.png",
-		FaceDetectionData: user_info.FaceImg,
 		UserType:          "user",
 		CreatedAt:         utils.CreateDateTimeCurrentFormated(),
 	}
 
 	rawsql_createNewAccount := `
-	insert into user (id, email, password, display_name, profile_picture_url, face_detection_data, user_type, created_at)
-	values (:id, :email, :password, :display_name, :profile_picture_url, :face_detection_data, :user_type, :created_at)
+	insert into user (id, email, password, display_name, profile_picture_url, user_type, created_at)
+	values (:id, :email, :password, :display_name, :profile_picture_url, :user_type, :created_at)
 	`
-	_, err := store.db.NamedExec(rawsql_createNewAccount, newUser)
+	_, err = tx.NamedExec(rawsql_createNewAccount, newUser)
 	if err != nil {
 		return fmt.Errorf("failed to insert new user: %w", err)
+	}
+
+	query := `
+        INSERT INTO face_data (user_id, img_url) VALUES (?, ?)
+    `
+
+	// Thực hiện insert cho từng URL
+	stmt, err := tx.Prepare(query)
+	if err != nil {
+		return fmt.Errorf("failed to prepare statement: %v", err)
+	}
+	defer stmt.Close()
+
+	for _, url := range user_info.FaceImg {
+		if _, err := stmt.Exec(user_id, url); err != nil {
+			return fmt.Errorf("failed to insert data for URL %s: %v", url, err)
+		}
+	}
+
+	// Commit transaction
+	if err := tx.Commit(); err != nil {
+		return fmt.Errorf("failed to commit transaction: %v", err)
 	}
 	return nil
 }

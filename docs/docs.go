@@ -836,7 +836,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/usermodel.Register"
+                            "$ref": "#/definitions/usermodel.RegisterV2"
                         }
                     }
                 ],
@@ -1074,7 +1074,7 @@ const docTemplate = `{
                 }
             }
         },
-        "usermodel.Register": {
+        "usermodel.RegisterV2": {
             "type": "object",
             "properties": {
                 "confirm_password": {
@@ -1084,7 +1084,10 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "face_image": {
-                    "type": "string"
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
                 },
                 "password": {
                     "type": "string"
